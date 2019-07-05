@@ -1,0 +1,27 @@
+﻿@import "https://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+
+.rwd-table {
+    background: #2F2D2E;
+    border: 1px solid #99C24D !important;
+}
+
+.rwd-table tr { border: 1px solid #99C24D !important; }
+
+.rwd-table th, .rwd-table td {
+    border: 1px solid #99C24D !important;
+    margin: .5em 1em;
+}
+
+@media (min-width: 480px) {
+    .rwd-table th, .rwd-table td {
+        border: 1px solid #99C24D !important;
+        padding: 1em !important;
+        text-align: center;
+    }
+}
+
+.rwd-table th, .rwd-table td:before {
+    border: 1px solid #99C24D !important;
+    color: #F18F01;
+    text-align: center;
+}

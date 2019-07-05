@@ -1,0 +1,38 @@
+﻿@model List<PickUpSports.Models.ViewModel.GameController.GameListViewModel>
+@{
+    ViewBag.Title = "Pick Up Games";
+}
+
+
+<li>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                @Html.ValidationSummary(false, null, new {@class = "text-danger", @id ="error-msg"})
+
+            </div>
+        </div>
+    }
+    @if (Model != null)
+    {
+        foreach (var game in Model)
+         {
+                 <div class="row">
+                     @Html.DisplayFor(model => game.Sport) at @Html.DisplayFor(model => game.Venue)
+                 </div>
+                 <div class="row">
+                     @Html.DisplayFor(model => game.StartDate) to @Html.DisplayFor(model => game.EndDate)
+                 </div>
+                 <div class="row">
+                     Game started by @Html.ActionLink(game.ContactName, "PlayerProfile", "Contact", new {id = game.ContactId}, null)
+                 </div>
+
+
+                 <div class="row">
+                     <br/>@Html.ActionLink("Click here for more details on game", "GameDetails", new {id = game.GameId})
+                 </div>
+             <hr/>
+         }
+    }
+</li>

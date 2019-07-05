@@ -1,0 +1,55 @@
+﻿@using System.Activities.Statements
+@model PickUpSports.Models.ViewModel.TrendingModel
+@{
+    ViewBag.Title = "View";
+}
+<h2>Trending Venues</h2>
+
+
+@using (Html.BeginForm("GetPredictionFromWebService", "Trending", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h5>Find the Most Popular Venue for Each Sport!</h5>
+                <form role="form" id="trend-form">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group" style="padding-top: 20px">
+                        @Html.DropDownListFor(
+                            x => x.SportName,
+                            new SelectList(ViewBag.Sport, "Key", "Value"),
+                            "Select A Sport",
+                            new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" class="btn btn-default">Show Most Popular Venue</button>
+                        </center>
+                    </div>
+
+                    <div id="result">
+                        <h5>@ViewBag.myData</h5>
+                        <center>
+                        @if (ViewBag.myData != null)
+                        {
+                            @Html.ActionLink("Click Here For More Info", "Details", "Venue", new { id = @ViewBag.venID }, null)
+                        }
+                        </center>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+}

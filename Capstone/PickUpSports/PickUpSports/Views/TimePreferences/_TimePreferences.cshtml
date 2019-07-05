@@ -1,0 +1,28 @@
+﻿@model PickUpSports.Models.ViewModel.ContactController.TimePreferenceListViewModel
+
+@Html.HiddenFor(x => x.ContactId)
+@if (Model.TimePreferences != null && Model.TimePreferences.Count > 0)
+{
+    <ul class="list-group">
+        @foreach (var timePreference in Model.TimePreferences)
+        {
+            <li class="list-group-item"><center>@Html.DisplayFor(x => timePreference.DayOfWeek), @Html.DisplayFor(x => timePreference.BeginTime) - @Html.DisplayFor(x => timePreference.EndTime)</center></li>
+        }
+    </ul>
+}
+else
+{
+    if (Model.IsPublicProfileView)
+    {
+        <h6>This user doesn't have any time preferences set yet.</h6>
+    }
+    else
+    {
+        <h6>You do not have any time preferences set yet.</h6>
+    }
+}
+
+@if (!Model.IsPublicProfileView)
+{
+    <center>@Html.ActionLink("Edit", "Details", "TimePreferences")</center>
+}

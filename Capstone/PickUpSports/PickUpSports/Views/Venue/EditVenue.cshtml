@@ -1,0 +1,109 @@
+﻿@using MimeKit.Text
+@model PickUpSports.Models.ViewModel.VenueController.VenueViewModel
+@{
+    ViewBag.Title = "EditVenue";
+}
+
+@*Edit Venue details*@
+@using (Html.BeginForm("EditVenue", "Venue", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.HiddenFor(x => x.VenueId)
+    @Html.HiddenFor(x => x.Name)
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h2 id="Name">@Model.Name</h2>
+                <div class="well">
+                    <div class="row" id="AddressInformation">
+
+                        <h5>Venue Information:</h5>
+                        <br />
+                        @Html.EditorFor(x => x.Address1, new { htmlAttributes = new { @class = "form-control", value = Model.Address1 } })
+                        @if (!string.IsNullOrEmpty(Model.Address2))
+                        {
+                            <br />
+                            @Html.EditorFor(x => x.Address2, new { htmlAttributes = new { @class = "form-control", value = Model.Address2 } })
+                        }
+                        <br />
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.EditorFor(x => x.City, new { htmlAttributes = new { @class = "form-control", value = Model.City } })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(
+                                    x => x.State,
+                                    new SelectList(ViewBag.States, "Key", "Value"),
+                                    "State",
+                                    new {@class = "form-control"})
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.EditorFor(x => x.ZipCode, new { htmlAttributes = new { @class = "form-control", value = Model.ZipCode } })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    @if (!string.IsNullOrEmpty(Model.Phone))
+                    {
+                        <div class="row">
+                            @Html.EditorFor(x => x.Phone, new { htmlAttributes = new { @class = "form-control", value = Model.Phone } })
+                        </div>
+                    }
+
+                    <br />
+                    <div class="row" id="BusinessHours">
+                        <h5>Hours of Operation:</h5>
+                    </div>
+                    <br />
+                    @for (int i = 0; i < Model.BusinessHours.Count; i++)
+                    {
+                        @Html.HiddenFor(x => Model.BusinessHours[i].DayOfWeek)
+                        <div class="row" id="bHourList">
+                            <div class="col-sm-3" id="dayOfWeek">
+                                <b>
+                                    @Html.DisplayFor(x => Model.BusinessHours[i].DayOfWeek):
+                                </b>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                @Html.EditorFor(x => Model.BusinessHours[i].OpenTime, new { htmlAttributes = new { @class = "form-control",placeholder="Opening", value = Model.BusinessHours[i].OpenTime } })
+                                @Html.ValidationMessageFor(x => Model.BusinessHours[i].OpenTime, "", new {@class = "text-danger"})
+                            </div>
+
+                            <div class="col-sm-1">
+                                -
+                            </div>
+
+                            <div class="col-sm-3">
+                                @Html.EditorFor(x => Model.BusinessHours[i].CloseTime, new { htmlAttributes = new { @class = "form-control", placeholder = "Closing", value = Model.BusinessHours[i].CloseTime } })
+                                @Html.ValidationMessageFor(x => Model.BusinessHours[i].CloseTime, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <br />
+
+                    }
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false, null, new {@class = "text-danger"})
+
+                            </div>
+                        </div>
+                    }
+
+                    <center>
+                        <button type="submit" id="submit" class="btn btn-primary">Save Venue Information</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+}
+

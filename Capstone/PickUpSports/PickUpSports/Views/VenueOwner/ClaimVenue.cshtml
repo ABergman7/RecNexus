@@ -1,0 +1,88 @@
+﻿@model PickUpSports.Models.ViewModel.VenueOwnerController.ClaimVenueFormViewModel
+
+@{
+    ViewBag.Title = "Claim Venue";
+}
+
+@using (Html.BeginForm("ClaimVenue", "VenueOwner", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h2>Claim @Model.VenueName</h2>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, null, new {@class = "text-danger"})
+
+                        </div>
+                    </div>
+                }
+                
+                @Html.HiddenFor(x => x.VenueId)
+                @Html.HiddenFor(x => x.VenueName)
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="First Name" name="FirstName">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="Last Name" name="LastName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="Email Address" name="Email">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" placeholder="Phone Number" name="PhoneNumber" pattern="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="Company name (if different from venue name)" name="CompanyName">
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    <div class="form-group">
+                        <div class="row">
+                            <p>Please attach proof of ownership of this venue.</p>
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control" name="Document" data-icon="false">
+                            </div>
+                        </div>
+                    </div>
+
+                </center>
+                <div class="form-group">
+                    <div class="row">
+
+                        <center>
+                            <button type="submit" class="btn btn-default">Submit Form</button>
+                        </center>
+                    </div>
+                </div>
+
+                @if (ViewBag.SubmitEmailSent != null && ViewBag.SubmitEmailSent)
+                {
+                    <div class="form-group">
+                        <center>
+                            <p><span class="glyphicon glyphicon-ok"></span> Your request has been sent!</p>
+                            <p>Please allow 24-48 hours for an administrator to get back to you.</p>
+                        </center>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

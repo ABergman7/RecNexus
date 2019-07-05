@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Milestones/Milestone3/DiscussionHub/DiscussionHub/Web_deploy.config
+/Milestones/Milestone3/DiscussionHub/DiscussionHub/AppSettingsSecrets.config
+/Capstone/PickUpSports/PickUpSports/AppSettingsSecrets.config

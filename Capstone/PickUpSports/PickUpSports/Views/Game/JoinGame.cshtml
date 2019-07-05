@@ -1,0 +1,17 @@
+﻿@model PickUpSports.Models.ViewModel.GameController.PickUpGameViewModel
+@{
+    ViewBag.Title = "JoinGame";
+}
+@using (Html.BeginForm("GameDetails", "Game", FormMethod.Post))
+{
+}
+    <h2>@Html.DisplayFor(model => model.Username)</h2>
+    <h2>@Html.DisplayFor(model => model.Email)</h2>
+    <h2>@Html.DisplayFor(model => model.PhoneNumber)</h2>
+    @Html.HiddenFor(model => model.ContactId)
+    @Html.HiddenFor(model => model.PickUpGameId)
+    @Html.HiddenFor(model => model.GameId)
+
+    <input type="submit" value="Join Game" class="btn btn-default" />
+
+

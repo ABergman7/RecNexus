@@ -1,0 +1,78 @@
+﻿@model PickUpSports.Models.ViewModel.ContactController.ProfileViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2>@Model.Username's Profile</h2>
+            <center>
+                @using (Html.BeginForm("AddFriend", "Friends", FormMethod.Post))
+                {
+                    @Html.HiddenFor(x => x.ContactId);
+                    <input type="submit" id="submit" name="button" value="Add Friend" class="btn btn-default" />
+                }
+            </center>
+        </div>
+    </div>
+</div>
+
+@if (Model.UserAllowsPublicProfile)
+{
+    <center>
+        <div class="container" style="padding-top: 30px">
+            <div class="row">
+                <div class="col-md-6">
+                    <center><h5>@Model.Username's Sport Preferences</h5></center>
+                    <br />
+                    @{
+                        Html.RenderAction("GetSportPreferences", new { contactId = Model.ContactId, isPublicProfileView = true });
+                    }
+                </div>
+
+                <div class="col-md-6">
+                    <center><h5>@Model.Username's Time Preferences</h5></center>
+                    <br />
+                    @{
+                        Html.RenderAction("GetTimePreferences", new { contactId = Model.ContactId, isPublicProfileView = true });
+                    }
+                </div>
+            </div>
+        </div>
+    </center>
+
+    <center>
+        <div class="container" style="padding-top: 30px">
+            <div class="row">
+                <div class="col-md-4">
+                    <center><h5>Games Started by @Model.Username</h5></center>
+                    <br />
+                    @{
+                        Html.RenderAction("GetGamesStartedByUser", new { contactId = Model.ContactId, isPublicProfileView = true });
+                    }
+                </div>
+
+                <div class="col-md-4">
+                    <center><h5>Games @Model.Username Joined</h5></center>
+                    <br />
+                    @{
+                        Html.RenderAction("GetGamesUserJoined", new { contactId = Model.ContactId, isPublicProfileView = true });
+                    }
+                </div>
+                
+                <div class="col-md-4">
+                    <center><h5>@Model.Username's Games Rejected by Venue Owner</h5></center>
+                    <br />
+                    @{
+                        Html.RenderAction("GetGamesRejected", new { contactId = Model.ContactId, isPublicProfileView = true });
+                    }
+                </div>
+            </div>
+        </div>
+    </center>
+}
+else
+{
+    <center>
+        Unfortunately this user does not have a public profile.
+    </center>
+}

@@ -1,0 +1,82 @@
+﻿@model PickUpSports.Models.ViewModel.GameController.CreateGameViewModel
+
+@{
+    ViewBag.Title = "Start a New Game";
+}
+
+<link rel="stylesheet" type="text/css" href="../../Content/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="../../Content/Site.css" />
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="../../Scripts/gameView.js"></script>
+}
+
+@using (Html.BeginForm("CreateGame", "Game", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h2>Start a New Game</h2>
+                <form role="form" id="game-form">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Venue field -->
+                    <div class="form-group">
+                        @Html.DropDownListFor(
+                            x => x.VenueId,
+                            new SelectList(ViewBag.Venues, "Key", "Value"),
+                            "Select a Venue",
+                            new {@class = "form-control", @onchange = "getVenueBusinessHours()"})
+                    </div>
+
+                    <div id="hours">
+                        <div class="form-group">
+                            @*Partial view updated by ajax call in gameView.js*@
+                        </div>
+                    </div>
+
+                    <!-- Sport field -->
+                    <div class="form-group" style="padding-top: 20px">
+                        @Html.DropDownListFor(
+                            x => x.SportId,
+                            new SelectList(ViewBag.Sports, "Key", "Value"),
+                            "Select a Sport",
+                            new {@class = "form-control"})
+                    </div>
+
+                    <!-- Date field -->
+                    <div class="form-group" style="padding-top: 20px">
+                        @Html.DisplayNameFor(x => x.DateRange)
+                        @Html.EditorFor(x => x.DateRange, new { htmlAttributes = new { @class = "form-control", name = "datetimes", @id = "datetimes" } })
+                    </div>
+
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" class="btn btn-default">Create Your Game</button>
+                        </center>
+                    </div>
+
+                    @if (ViewBag.GameCreated != null && ViewBag.GameCreated)
+                    {
+                        <div class="form-group">
+                            <center>
+                                <p><span class="glyphicon glyphicon-ok"></span> Game created successfully!</p>
+                            </center>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+}

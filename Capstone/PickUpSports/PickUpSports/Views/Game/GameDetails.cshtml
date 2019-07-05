@@ -1,0 +1,131 @@
+﻿@using PickUpSports.Models.Enums
+@model PickUpSports.Models.ViewModel.GameController.ViewGameViewModel
+@{
+    ViewBag.Title = "Game Details";
+}
+@section Scripts
+{
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../../Scripts/pickUpGameView.js"></script>
+}
+
+<head>
+    <link href="@Url.Content("/Content/playerTable.css")" rel="stylesheet" type="text/css" />
+</head>
+
+
+<div class="container">
+    <div class="row">
+        <div class="well">
+            <fieldset>
+                <h4>Game Detail</h4>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ContactName)
+                    @if (Model.ContactId == null)
+                    {
+                        <html>
+                        User that created this game no longer has an account.
+                        </html>
+                    }
+                    else
+                    {
+                        <html>
+                        @Html.ActionLink(Model.ContactName, "PlayerProfile", "Contact", new {id = Model.ContactId}, null)
+                        </html>
+                    }     
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Venue)
+                    @Html.DisplayFor(model => model.Venue)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status)
+                    @Html.DisplayFor(model => model.Status)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sport)
+                    @Html.DisplayFor(model => model.Sport)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartDate)
+                    @Html.DisplayFor(model => model.StartDate)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndDate)
+                    @Html.DisplayFor(model => model.EndDate)
+                </div>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(false, null, new {@class = "text-danger", @id ="error-msg"})
+
+                        </div>
+                    </div>
+                }
+
+                <center>
+                    <p>
+                        @using (Html.BeginForm("GameDetails", "Game", FormMethod.Post))
+                        {
+                            @Html.HiddenFor(model => model.GameId)
+                            @Html.HiddenFor(model => model.ContactId)
+                            @Html.HiddenFor(model => model.PickUpGameId)
+                            if (Model.IsVenueOwner)
+                            {
+                                if (Model.Status == "Rejected")
+                                {
+                                    <input type="submit" name="button" class="btn btn-default" id="submit" value="Accept Game"/>
+                                }
+
+                                if (Model.Status == "Open" || Model.Status == "Accepted")
+                                {
+                                    <input type="submit" name="button" class="btn btn-default" id="submit" value="Reject Game"/>
+                                }
+                            }
+                            else if(Model.Status == "Rejected")
+                            {
+                                <p>The game is rejected, you can't join this game</p>
+                            }
+                            else
+                            {
+                                // User created game so shouldn't have option to leave or join, just edit
+                                if (Model.IsCreatorOfGame)
+                                {
+                                    <input type="button" class="btn btn-default" value="Edit Information" id="submit" onclick="location.href = '@Url.Action("EditGame", "Game", new {id = Model.GameId})'" />
+                                }
+                                // User is not creator but they already joined this game, only show leave button
+                                else if(Model.IsAlreadyJoined)
+                                {
+                                    <input type="submit" name="button" value="Leave Game" id="submit"  class="btn btn-default" />
+                                }
+                                // User is not creator and is not joined, only show joined game option
+                                else
+                                {
+                                    <input type="submit" name="button" value="Join Game" id="submit"  class="btn btn-default" />
+                                }
+                            }
+
+
+                        }
+
+                    </p>
+                </center>
+
+            </fieldset>
+            
+        </div>
+
+
+    </div>
+    <div id="myList">
+
+    </div>
+    
+    @if(Model.Status != "Rejected")
+    {
+        <input type="button" class="btn btn-default" value="Invite a friend" id="submit" onclick="location.href = '@Url.Action("FriendInvite", "Friends", new {gameId = Model.GameId})'" />
+
+    }
+</div>
+

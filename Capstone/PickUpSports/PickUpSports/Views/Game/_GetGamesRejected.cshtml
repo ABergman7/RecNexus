@@ -1,0 +1,31 @@
+﻿@model PickUpSports.Models.ViewModel.ContactController.GameProfileViewModel
+
+@if (Model.Games != null && Model.Games.Count > 0)
+{
+    <ul class="list-group">
+        @foreach (var game in Model.Games)
+        {
+            <li class="list-group-item">
+                <p>
+                    @Html.DisplayFor(model => game.Sport) at @Html.ActionLink(game.Venue, "Details", "Venue", new { id = game.VenueId }, null)
+                    <br /> @Html.DisplayFor(model => game.StartDate) to @Html.DisplayFor(model => game.EndDate)
+                    <br />Game status: @Html.DisplayFor(model => game.GameStatus)
+                </p>
+                <br />
+                @Html.ActionLink("Click here for more details on game", "GameDetails", "Game", new { id = game.GameId }, null)
+            </li>
+        }
+    </ul>
+}
+else
+{
+    if (Model.IsPublicProfileView)
+    {
+        <h6>This user hasn't started any games yet.</h6>
+    }
+    else
+    {
+        <h6>You have not started any games yet.</h6>
+        @Html.ActionLink("Start a new game!", "CreateGame", "Game", null, null)
+    }
+}

@@ -1,0 +1,16 @@
+﻿<@model PickUpSports.Models.CaptchaResponse
+
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2>Recaptcha Error</h2>
+            <section id="loginForm">
+                <div class="form-group">
+                    <center>
+                        Received following reCAPTCHA error: @Model.ErrorMessage.FirstOrDefault()                    
+                    </center>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

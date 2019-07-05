@@ -1,0 +1,3 @@
+# Vision Statment
+
+For avid news critics, who would like to engage in discussion with other individuals concerning the topics and information of the news articles, Discussion Hub is a web application that features a centralized discussion site for everyone. This application will allow users to add questions, comments, and engage in conversation with other users. This will help users gain valid information and clarity on articles and websites that lack integrity. Unlike other social media and news websites, our product will provide a friendly environment where people can communicate and engage in profound conversations. 

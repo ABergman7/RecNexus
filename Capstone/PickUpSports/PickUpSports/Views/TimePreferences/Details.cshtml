@@ -1,0 +1,82 @@
+﻿@model System.Collections.Generic.IEnumerable<PickUpSports.Models.DatabaseModels.TimePreference>
+
+@{
+    ViewBag.Title = "Details";
+}
+<br/>
+
+
+<div class="container">
+    <div class="row">
+        <div class="well">
+
+            <h4>
+                Your Time Preferences
+            </h4><table class="table">
+
+                @if (Model.Count() > 0)
+                {
+                    <tr>
+                        <th>
+                            <center>
+                                @Html.DisplayName("Day of Week")
+                            </center>
+                        </th>
+                        <th>
+                            <center>
+                                @Html.DisplayName("Begin Time")
+                            </center>
+                        </th>
+                        <th>
+                            <center>                                
+                                @Html.DisplayName("End Time")
+                            </center>
+                        </th>
+                        <th></th>
+                    </tr>
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if(item.DayOfWeek == 0){ <p>Sunday</p>}
+                                else if(item.DayOfWeek == 1){ <p>Monday</p>}
+                                else if(item.DayOfWeek == 2){ <p>Tuesday</p>}
+                                else if(item.DayOfWeek == 3){ <p>Wednesday</p>}
+                                else if(item.DayOfWeek == 4){ <p>Thursday</p>}
+                                else if(item.DayOfWeek == 5){ <p>Friday</p>}
+                                @if(item.DayOfWeek == 6){ <p>Saturday</p>}
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BeginTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndTime)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new {id = item.TimePrefID}) |
+                                @Html.ActionLink("Delete", "Delete", new {id = item.TimePrefID})
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="container">
+                        <h5>No time preference set yet.</h5>
+                    </div>
+                }
+
+            </table>
+        </div>
+    </div>
+
+    <center>
+        <p>
+            @Html.ActionLink("Add New Time Preference", "Create") | @Html.ActionLink("Back to Account Detail", "../Contact/Details")
+        </p>
+    </center>
+</div>
+
+
+
+

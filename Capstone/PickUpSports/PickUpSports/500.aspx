@@ -1,0 +1,20 @@
+﻿<% Response.StatusCode = 500 %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/Content/custom-404.css" />
+</head>
+<body>
+
+<div class="glitch_word_box">
+    <div class="line"></div>
+    <h1 id="word" class="glitch_word0">500 - page not found</h1>
+    <h1 id="word1" class="glitch_word1">500 - page not found</h1>
+    <h1 id="word2" class="glitch_word2">500 - page not found</h1>
+</div>
+</body>
+
+</html>
+

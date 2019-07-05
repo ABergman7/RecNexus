@@ -1,0 +1,183 @@
+﻿@model PickUpSports.Models.ViewModel.VenueOwnerController.CreateVenueOwnerViewModel
+
+@{
+    ViewBag.Title = "Your Profile";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2>@Model.VenueName's Owner</h2>
+            @if (ViewBag.IsOwner)
+            {
+                <div class="well">
+                    <p>@Html.DisplayFor(x => x.FirstName) @Html.DisplayFor(x => x.LastName)</p>
+                    <p>@Html.DisplayFor(x => x.Email)</p>
+                    <p>@Html.DisplayFor(x => x.PhoneNumber)</p>
+                    <p>
+                        <center>
+                            @Html.ActionLink("Edit Information", "Edit", new { id = Model.VenueOwnerId }) | @Html.ActionLink("Go To Venue Page", "Details", "Venue", new { id = Model.VenueId}, null)
+                        </center>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="well">
+                    <p>@Html.DisplayFor(x => x.FirstName) @Html.DisplayFor(x => x.LastName)</p>
+                    <p>
+                        <center>
+                            <a href="#" data-toggle="modal" data-target="#confirm">Message Owner</a>
+                        </center>
+                    </p>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 30px">
+    @if (ViewBag.IsOwner)
+    {
+        <div id="calendar" style="margin: auto; width: 80%; border: 1px solid black; padding: 10px; background-color: #2F2D2E"></div>
+             <div id="myModal" class="modal fade" role="dialog">
+                 <div class="modal-dialog"> 
+                     <div class="modal-content" style="background-color: #2F2D2E">
+                         <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal">&times;</button>
+                             <h5 class="modal-title"><span id="eventTitle"></span></h5>
+                         </div>
+                         <div class="modal-body">
+                             <p id="pDetails"></p>
+                         </div>
+                         <div class="modal-footer">
+                             <center>
+                                 <button type="button" class="btn btn-default" id="submit" data-dismiss="modal">Close</button>
+                             </center>
+                             </div>
+                     </div>
+                 </div>
+             </div>
+    }
+
+</div>
+@using (Html.BeginForm("MessageOwner", "VenueOwner", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.VenueOwnerId)
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmRemove" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: #2F2D2E">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRemove">New Message for @Model.FirstName @Model.LastName</h5>
+                    <br />
+                    @Html.LabelFor(x => x.MessageSubject)
+                    @Html.EditorFor(x => x.MessageSubject, new { htmlAttributes = new { @class = "form-control", placeholder = "Subject" } })
+                </div>
+                <div class="modal-body">
+                    @Html.LabelFor(x => x.MessageBody)
+                    @Html.TextAreaFor(x => x.MessageBody, new { @class = "form-control", rows = 5, placeholder = "Questions, Comments, or Concerns" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-default" name="Button">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/VenueOwner/GetEvents/" + @Model.VenueId,
+                success: function(data) {
+                    $.each(data,
+                        function(i, v) {
+                            events.push({
+                                title: v.Subject,
+                                start: moment(v.Start),
+                                end: v.End != null ? moment(v.End) : null,
+                                gameStatus: v.GameStatus,
+                                gameId: v.GameId,
+                                color: v.Color,
+                            });
+                        });
+
+                    GenerateCalendar(events);
+                },
+                error: function(error) {
+                    alert('failed');
+                }
+            });
+
+            function GenerateCalendar(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    contentHeight: 500,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay,agenda'
+                    },
+                    dayRender: function(date, cell) {
+                        var today = moment();
+                        if (isSameDayAndMonth(today, date)) {
+                            cell.css("background-color", "black");
+                        }
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    eventClick: function(calEvent, jsEvent, view) {
+                        $('#myModal #eventTitle').text(calEvent.title);
+                        var $description = $('<div/>');
+                        $description.append($('<p/>')
+                            .html('<b>Start:</b>' + " " + calEvent.start.format('MMMM Do YYYY, h:mm:ss a')));
+                        if (calEvent.end != null) {
+                            $description.append($('<p/>')
+                                .html('<b>End:</b>' + " " + calEvent.end.format('MMMM Do YYYY, h:mm:ss a')));
+                        }
+                        $description.append($('<p/>').html('<b>Game status:</b>' + " " + calEvent.gameStatus));
+                        console.log(calEvent.gameStatus);
+                        if (calEvent.gameStatus === "Open" || calEvent.gameStatus === "Accepted") {
+                            var rejectUrl = '@Url.Action("RejectGame", "VenueOwner", new {id = "-1"})';
+                            rejectUrl = rejectUrl.replace("-1", calEvent.gameId);
+                            var rejectTxt = "Reject Game";
+                            $description.append($('<p/>').html('<center>' + rejectTxt.link(rejectUrl) + '</center>'));
+
+                        } else {
+                            var acceptUrl = '@Url.Action("AcceptGame", "VenueOwner", new {id = "-1"})';
+                            acceptUrl = acceptUrl.replace("-1", calEvent.gameId);
+                            var acceptTxt = "Reinstate Game";
+                            $description.append($('<p/>').html('<center>' + acceptTxt.link(acceptUrl) + '</center>'));
+                        }
+
+                        $('#myModal #pDetails').empty().html($description);
+
+                        $('#myModal').modal();
+                    }
+                });
+            }
+
+            function isSameDayAndMonth(m1, m2){
+                return m1.date() === m2 .date() && m1.month() === m2.month()
+            }
+
+        })
+    </script>
+}

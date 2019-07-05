@@ -1,0 +1,3 @@
+# Vision Statement
+
+For active individuals, who would like to utilize the facilities and egage in activities with other individuals, Pickup Sport is a web application that reintroduces the sense of commmunity and open doors for available space. This application will help users form sports groups through common interest, and at the same time obtain information on the facilities. Unlike other sport grouping applications, our product will also feature the information on facilities in the region including rating and availability. 

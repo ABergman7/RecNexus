@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Administrator Dashboard";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2>Administrator Dashboard</h2>
+            <div class="well">
+                <p>Nothing to see here yet</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<center>
+    <div class="container" style="padding-top: 30px">
+        <div class="row">
+            <div class="col-md-6">
+                <center><b>Venue Owners</b></center>
+                <br />
+                @{
+                    Html.RenderAction("GetAllVenuOwners", "VenueOwner");
+                }
+            </div>
+        </div>
+    </div>
+</center>

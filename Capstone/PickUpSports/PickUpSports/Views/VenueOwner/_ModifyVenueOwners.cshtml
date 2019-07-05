@@ -1,0 +1,19 @@
+﻿@model List<PickUpSports.Models.ViewModel.VenueOwnerController.VenueOwnerViewModel>
+    
+<ul class="list-group">
+    @foreach (var owner in Model)
+    {
+        <li class="list-group-item">
+            <p>
+                Venue: @Html.DisplayFor(x => owner.VenueName)
+                <br />Owner: @Html.DisplayFor(x => owner.FirstName) @Html.DisplayFor(x => owner.LastName)
+                <br />Email: @Html.DisplayFor(x => owner.Email)
+                <br />Phone: @Html.DisplayFor(x => owner.PhoneNumber)
+            </p>
+
+            @Html.ActionLink("Edit", "Edit", "VenueOwner", new { id = owner.VenueOwnerId }, null)
+        </li>
+    }
+</ul>
+
+@Html.ActionLink("Add New Venue Owner", "Create", "VenueOwner", null, null)

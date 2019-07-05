@@ -1,0 +1,119 @@
+﻿@model PickUpSports.Models.DatabaseModels.Contact
+
+@{
+    ViewBag.Title = "Your Profile";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2>@Model.Username</h2>
+            <div class="well">
+                <p>@Html.DisplayFor(x => x.FirstName) @Html.DisplayFor(x => x.LastName)</p>
+                <p>@Html.DisplayFor(x => x.Email)</p>
+                @if (string.IsNullOrEmpty(Model.Address2) && !string.IsNullOrEmpty(Model.Address1))
+                {
+                    <p>@Html.DisplayFor(x => x.Address1), @Html.DisplayFor(x => x.City), @Html.DisplayFor(x => x.State) @Html.DisplayFor(x => x.ZipCode)</p>
+                }
+                else if(!string.IsNullOrEmpty(Model.Address1))
+                {
+                    <p>@Html.DisplayFor(x => x.Address1), @Html.DisplayFor(x => x.Address2), @Html.DisplayFor(x => x.City), @Html.DisplayFor(x => x.State) @Html.DisplayFor(x => x.ZipCode)</p>
+
+                }
+                <p>@Html.DisplayFor(x => x.PhoneNumber)</p>
+                @if (Model.HasPublicProfile)
+                {
+                    <p>Your profile is <b>@Html.ActionLink("public", "PlayerProfile", new {id = Model.ContactId })</b></p>
+                }
+                else
+                {
+                    <p>Your profile is <b>private</b></p>
+                }
+                <p>
+                    <center>
+                        @Html.ActionLink("Edit Information", "Edit") | @Html.ActionLink("Change Password", "ChangePassword", "Manage") | <a href="#" data-toggle="modal" data-target="#confirm">Delete Account</a> |  @Html.ActionLink("View Friends", "../Friends/FriendList", new { id = Model.ContactId })
+                    </center>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<center>
+    <div class="container" style="padding-top: 30px">
+        <div class="row">
+            <div class="col-md-6">
+                <center><h5>Your Sport Preferences</h5></center>
+                <br/>
+                @{
+                    Html.RenderAction("GetSportPreferences", new {contactId = Model.ContactId, isPublicProfileView = false });
+                }
+            </div>
+        
+            <div class="col-md-6">
+                <center><h5>Your Time Preferences</h5></center>
+                <br/>
+                @{
+                    Html.RenderAction("GetTimePreferences", new {contactId = Model.ContactId, isPublicProfileView = false});
+                }
+            </div>
+        </div>
+    </div>
+</center>
+
+<center>
+    <div class="container" style="padding-top: 30px">
+        <div class="row">
+            <div class="col-md-4">
+                <center><h5>Games You Started</h5></center>
+                <br />
+                @{
+                    Html.RenderAction("GetGamesStartedByUser", new { contactId = Model.ContactId, isPublicProfileView = false });
+                }
+            </div>
+
+            <div class="col-md-4">
+                <center><h5>Games You Joined</h5></center>
+                <br />
+                @{
+                    Html.RenderAction("GetGamesUserJoined", new { contactId = Model.ContactId, isPublicProfileView = false });
+                }
+            </div>
+            
+            <div class="col-md-4">
+                <center><h5>Games Rejected by Venue Owner</h5></center>
+                <br />
+                @{
+                    Html.RenderAction("GetGamesRejected", new { contactId = Model.ContactId, isPublicProfileView = false });
+                }
+            </div>
+        </div>
+    </div>
+</center>
+
+
+
+@using (Html.BeginForm("Delete", "Contact", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ContactId)
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmRemove" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: #2F2D2E;">                         
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRemove">Confirm Deletion</h5>
+                </div>
+                <div class="modal-body">
+                    Please confirm that you want to delete your account <b>permanently</b>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger" name="Button">Yes, delete my account.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

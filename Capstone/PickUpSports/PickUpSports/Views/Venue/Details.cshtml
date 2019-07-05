@@ -1,0 +1,109 @@
+﻿@model PickUpSports.Models.ViewModel.VenueController.VenueViewModel
+@{
+    ViewBag.Title = @Model.Name;
+}
+
+@*Venue details*@
+<div class="container">
+    <div class="row">
+        <div class="form-box">
+            <h2 id="Name">@Model.Name</h2>
+            <div class="well">
+                <div class="row" id="AddressInformation">
+                    @Model.Address1
+                    @if (!string.IsNullOrEmpty(Model.Address2))
+                    {
+                        <br />@Model.Address2
+                    }
+                    <br />@Model.City, @Model.State, @Model.ZipCode
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Phone))
+                {
+                    <div class="row">
+                        @Model.Phone
+                    </div>
+                }
+                
+                <br/>
+                <div class="row" id="BusinessHours">
+                    <h5>Hours of Operation:</h5>
+                </div>
+                @if (Model.BusinessHours.Count > 0)
+                {
+                    foreach (var businessHour in Model.BusinessHours)
+                    {
+                        <div class="row">
+                            @Html.DisplayFor(x => businessHour.DayOfWeek): @Html.DisplayFor(x => businessHour.OpenTime) - @Html.DisplayFor(x => businessHour.CloseTime)
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        We apologize. Business hours are not currently available for this venue.
+                    </div>
+                }
+                
+                <br/>
+                <div class="row" id="AverageRating">
+                    @if (Model.AverageRating != null)
+                    {
+                        <h5>Average Review Rating:</h5> @Model.AverageRating
+                    }
+                </div>
+                
+                <div class="row">
+                    @if (ViewBag.IsOwner)
+                    {
+                        <br/>
+                        <html>
+                        @Html.ActionLink("Edit Venue Details", "EditVenue", "Venue", new {id = @Model.VenueId}, null)
+                        <br/>
+                        </html>
+                    }
+                    else if (Model.HasVenueOwner)
+                    {
+                        <br/>
+                        <html>
+                        The owner of this venue is @Model.VenueOwner.FirstName @Model.VenueOwner.LastName
+                        <br/>@Html.ActionLink("Click here", "Detail", "VenueOwner", new {id = @Model.VenueOwner.VenueOwnerId}, null) to contact owner.
+                        </html>
+                    }
+                    else
+                    {
+                        <br/>
+                        <html>
+                        If you own or run this venue, please @Html.ActionLink("click here", "ClaimVenue", "VenueOwner", new {venueId = @Model.VenueId}, null)
+                        <br/>to claim this venue and maintain any games or information.
+                        </html>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<center>
+    <div class="container" style="padding-top: 30px">
+        <div class="row">
+            <div class="col-md-6" id="Reviews">
+                <center><h5>@Model.Name Reviews</h5></center>
+                <br />@Html.ActionLink("Leave a review!", "Create", "Review", new { id = @Model.VenueId }, null)    
+                <br /><br/>
+                @{
+                    Html.RenderAction("GetReviews", new { venueId = Model.VenueId});
+                }
+            </div>
+
+            <div class="col-md-6" id="Games">
+                <center><h5>Games coming up at @Model.Name</h5></center>
+                <br />@Html.ActionLink("Start a game!", "CreateGame", "Game")
+                <br /><br/>
+                @{
+                    Html.RenderAction("GetVenueGames", new { venueId = Model.VenueId});
+                }
+            </div>
+        </div>
+    </div>
+</center>
+

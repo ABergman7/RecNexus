@@ -1,0 +1,44 @@
+﻿@model List<PickUpSports.Models.ViewModel.GameController.GameListViewModel>
+
+
+@if (Model == null || Model.Count < 1)
+{
+    <div class="row">
+        There are no games available for this venue.
+    </div>
+}
+else
+{
+    <ul class="list-group">
+
+        @foreach (var game in Model)
+        {
+            <li class="list-group-item">
+
+                <div class="row">
+                    @Html.DisplayFor(model => game.Sport)
+                </div>
+                <div class="row">
+                    @Html.DisplayFor(model => game.StartDate) to @Html.DisplayFor(model => game.EndDate)
+                </div>
+                <div class="row">
+                    @if (game.ContactId == null)
+                    {
+                        <html>
+                        User that created this game no longer has an account.
+                        </html>
+                    }
+                    else
+                    {
+                        <html>
+                        Game started by @Html.ActionLink(game.ContactName, "PlayerProfile", "Contact", new {id = game.ContactId}, null)
+                        </html>
+                    }
+                </div>
+                <div class="row">
+                    <br/>@Html.ActionLink("Click here for more details on game", "GameDetails", "Game", new {id = game.GameId}, null)
+                </div>
+            </li>
+        }
+    </ul>
+}

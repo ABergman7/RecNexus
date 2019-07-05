@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="jumbo">
+    <img src="../../Content/header.jpg" style="height: 700px; width: 100%; opacity: 0.8; max-width: 100%;" />
+    <div class="centered">Bringing communities <br />together through sports</div>
+</div>
+
+
+
+<div class="container">
+    
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-4">
+            <center>
+                <img src="../../Content/images/sportIcon.png" style="height: 50px; width: 50px; color: #F18F01" />
+                <hr/>
+                <p>
+                    View all games that other players <br />in your area have started!
+                </p>
+                <p><a href="@Url.Action("GameList", "Game")">View Games</a></p>
+            </center>
+        </div>
+        <div class="col-md-4">
+            <center>
+                <img src="../../Content/images/startGame.png" style="height: 50px; width: 50px;" />
+                <hr/>
+                <p>
+                    Don't see a game you like? <br/>Start your own!
+                </p>
+                <p><a href="@Url.Action("CreateGame", "Game")">Start Game</a></p>
+            </center>
+        </div>
+        <div class="col-md-4">
+            <center>
+                <img src="../../Content/images/venues.png" style="height: 50px; width: 50px;" />
+                <hr/>
+                <p>
+                    View local parks and venues <br/>that are in your area!
+                </p>
+                <p><a href="@Url.Action("Index", "Venue")">View Venues</a></p>
+            </center>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Container holding the image and the text */
+    .jumbo {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    /* Centered text */
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-weight: bold;
+        text-align: center;
+        font-size: 36pt;
+        text-transform: uppercase;
+        text-shadow: -2px -2px 0 #000, 1px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        transform: translate(-50%, -50%);
+        max-width: 75%;
+    }
+</style>

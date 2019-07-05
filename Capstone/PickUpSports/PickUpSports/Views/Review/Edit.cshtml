@@ -1,0 +1,48 @@
+﻿@model PickUpSports.Models.ViewModel.ReviewController.EditReviewViewModel
+@{
+    ViewBag.Title = "Edit your review";
+}
+
+@using (Html.BeginForm("Edit", "Review", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h2>Edit your review for <br /><i>@Model.VenueName</i></h2>
+                <form role="form" id="game-form">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ValidationSummary(false, null, new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    }
+
+                    @Html.HiddenFor(model => model.VenueId)
+                    @Html.HiddenFor(model => model.ReviewId)
+
+                    <div class="form-group">
+                        <br />@Html.DisplayNameFor(model => model.Rating):
+                        <label class="radio-inline"><input type="radio" value="1" name="Rating">1</label>
+                        <label class="radio-inline"><input type="radio" value="2" name="Rating">2</label>
+                        <label class="radio-inline"><input type="radio" value="3" name="Rating">3</label>
+                        <label class="radio-inline"><input type="radio" value="4" name="Rating">4</label>
+                        <label class="radio-inline"><input type="radio" value="5" name="Rating" checked>5</label>
+                    </div>
+                    <div class="form-group">
+                        <br />@Html.DisplayNameFor(model => model.Comments):
+                        @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = 7 })
+                    </div>
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" class="btn btn-default">Edit Review</button>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+

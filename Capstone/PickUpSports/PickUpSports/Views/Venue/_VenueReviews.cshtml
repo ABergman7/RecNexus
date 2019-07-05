@@ -1,0 +1,35 @@
+﻿@model PickUpSports.Models.ViewModel.VenueController.PartialReviewViewModel
+
+@if (Model.Reviews != null && Model.Reviews.Count > 0)
+{
+    <ul class="list-group">
+        @foreach (var reviews in Model.Reviews)
+        {
+            <li class="list-group-item">
+                @if (reviews.Author != null)
+                {
+                    <h5><b>Author:</b>: @reviews.Author</h5>
+                }
+                else
+                {
+                    <h5><b>Author:</b> <i>anonymous</i></h5>
+                }
+
+                <p><b>Rating: </b>@reviews.Rating</p>
+                <p><b>Review Date:</b> @String.Format("{0:M/d/yyyy}", reviews.Timestamp)</p>
+                <p>@reviews.Comments</p>
+                
+                @if (reviews.ReviewBelongsToUser)
+                {
+                <p>@Html.ActionLink("Edit", "Edit", "Review", new { id = reviews.ReviewId }, null) | @Html.ActionLink("Delete", "Delete", "Review", new { id = reviews.ReviewId }, null)</p>
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div class="row">
+        There are no reviews available for this venue.
+    </div>
+}

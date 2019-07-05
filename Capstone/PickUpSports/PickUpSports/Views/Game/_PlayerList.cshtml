@@ -1,0 +1,36 @@
+﻿
+@model List<PickUpSports.Models.ViewModel.GameController.PickUpGameViewModel>
+
+<h4 id="warning">@ViewBag.ErrorMsg</h4>
+@if (Model == null)
+{
+<center>
+    <h5>No players have joined this game yet.</h5>
+</center>
+}
+else
+{
+    <table class="table rwd-table" id="playerTable">
+        <tr>
+            <th>@Html.DisplayName("Players signed up for this game:")</th>
+        </tr>
+
+
+        @foreach (var player in Model)
+        {
+            @Html.HiddenFor(model => player.GameId)
+            @Html.HiddenFor(model => player.PickUpGameId)
+
+            <tr>
+                <td>
+                    @Html.ActionLink(player.Username, "PlayerProfile", "Contact", new { id = player.ContactId }, null)
+            </td>
+        </tr>
+    }
+    </table>
+}
+
+
+
+
+

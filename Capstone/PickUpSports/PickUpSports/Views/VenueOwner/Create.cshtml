@@ -1,0 +1,86 @@
+﻿@model PickUpSports.Models.ViewModel.VenueOwnerController.CreateVenueOwnerViewModel
+
+@{
+    ViewBag.Title = "Initialize Your Information";
+}
+
+@using (Html.BeginForm("Create", "VenueOwner", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div class="row">
+            <div class="form-box">
+                <h2>Initialize Venue Owner</h2>
+                <br/>
+                <form role="form" id="game-form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </div>
+                            <input type="text" class="form-control" name="FirstName" placeholder="First Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </div>
+                            <input type="text" class="form-control" name="LastName" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </div>
+                            <input type="text" class="form-control" name="Email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-earphone"></span>
+                            </div>
+                            <input type="text" class="form-control" name="PhoneNumber" placeholder="Phone Number">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </div>
+                            <input type="text" class="form-control" name="CompanyName" placeholder="Company Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-globe"></span>
+                            </div>
+                            @Html.DropDownListFor(
+                                x => x.VenueId,
+                                new SelectList(ViewBag.Venues, "Key", "Value"),
+                                "Select a Venue",
+                                new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <center>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
